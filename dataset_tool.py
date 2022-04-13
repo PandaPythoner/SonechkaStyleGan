@@ -69,7 +69,7 @@ def open_image_folder(source_dir, *, max_images: Optional[int]):
         for idx, fname in enumerate(input_images):
             arch_fname = os.path.relpath(fname, source_dir)
             arch_fname = arch_fname.replace('\\', '/')
-            img = np.array(PIL.Image.open(fname))
+            img = np.array(PIL.Image.open(fname).resize((1024, 1024)))
             yield dict(img=img, label=labels.get(arch_fname))
             if idx >= max_idx-1:
                 break
@@ -317,8 +317,8 @@ def convert_dataset(
     max_images: Optional[int],
     transform: Optional[str],
     resize_filter: str,
-    width: Optional[int],
-    height: Optional[int]
+    width: Optional[int] = 1000,
+    height: Optional[int] = 1000
 ):
     """Convert an image dataset into a dataset archive usable with StyleGAN2 ADA PyTorch.
 
